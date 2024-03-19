@@ -1,7 +1,7 @@
 import { Event } from './utils/event';
 declare const Upload: (info: {
     fileType: string[];
-    chunkSize: number;
+    chunkSize: number | boolean;
     concurrent: number;
 }) => {
     show: () => void;

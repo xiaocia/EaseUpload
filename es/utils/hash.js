@@ -2,15 +2,31 @@ import md5 from 'spark-md5';
 const hash = (chunks) => {
     return new Promise(resolve => {
         const _chunks = [];
-        for (const i in chunks) {
-            if (i === 0 + '' || i === chunks.length - 1 + '') {
-                _chunks.push(chunks[i]);
+        if (chunks.length !== 1) {
+            // 分片
+            for (const i in chunks) {
+                if (i === 0 + '' || i === chunks.length - 1 + '') {
+                    _chunks.push(chunks[i]);
+                }
+                else {
+                    const file = chunks[i].file;
+                    _chunks.push(Object.assign(Object.assign({}, chunks[i]), { file: file.slice(0, 2) }));
+                    _chunks.push(Object.assign(Object.assign({}, chunks[i]), { file: file.slice(~~(file.size / 2), ~~(file.size / 2) + 2) }));
+                    _chunks.push(Object.assign(Object.assign({}, chunks[i]), { file: file.slice(file.size - 2, file.size) }));
+                }
+            }
+        }
+        else {
+            //不分片但是文件小
+            if (chunks[0].allSize < 1024 * 1024 * 10) {
+                _chunks.push(chunks[0]);
             }
             else {
-                const file = chunks[i].file;
-                _chunks.push(Object.assign(Object.assign({}, chunks[i]), { file: file.slice(0, 2) }));
-                _chunks.push(Object.assign(Object.assign({}, chunks[i]), { file: file.slice(file.size / 2, file.size / 2 + 2) }));
-                _chunks.push(Object.assign(Object.assign({}, chunks[i]), { file: file.slice(file.size, file.size + 2) }));
+                // 不分片且文件大
+                const file = chunks[0].file;
+                _chunks.push(Object.assign(Object.assign({}, chunks[0]), { file: file.slice(0, 1024 * 1024 * 2) }));
+                _chunks.push(Object.assign(Object.assign({}, chunks[0]), { file: file.slice(~~(file.size / 2), ~~(file.size / 2) + 1024 * 1024 * 2) }));
+                _chunks.push(Object.assign(Object.assign({}, chunks[0]), { file: file.slice(file.size - 1024 * 1024 * 2, file.size) }));
             }
         }
         const spark = new md5();
@@ -18,7 +34,7 @@ const hash = (chunks) => {
         const _read = (i) => {
             if (i >= _chunks.length) {
                 const hashVal = spark.end(false);
-                console.log('用时：', (new Date().valueOf() - time1) / 1000);
+                console.log('计算hash用时:', (new Date().valueOf() - time1) / 1000);
                 resolve(hashVal);
                 return;
             }

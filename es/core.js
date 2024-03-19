@@ -32,14 +32,36 @@ const Upload = (info) => {
         const file = input.files[0];
         new Promise(resolve => {
             event.emit('change', null);
-            // 开始切片
-            chunks = createChunks(file, info.chunkSize);
+            if (typeof info.chunkSize === 'number') {
+                // 配置了切片
+                if (file.size < info.chunkSize * 1024 * 1024)
+                    return console.error('文件比切片小');
+                // 开始切片
+                chunks = createChunks(file, info.chunkSize);
+            }
+            else if (info.chunkSize === false) {
+                chunks = [
+                    {
+                        file: file,
+                        size: file.size,
+                        allSize: file.size,
+                        chunksNum: 1,
+                        index: 0,
+                        offset: 0,
+                        id: ''
+                    }
+                ];
+            }
             // 计算hash
             hash(chunks).then(hash => {
                 // 根据hash更改每个分片的id
                 chunks = chunks.map((e, i) => (Object.assign(Object.assign({}, e), { id: `${hash}-${i}` })));
                 // hash计算完毕，得到用户处理的taskArr
-                event.emit('changeFinish', { file, fileSize: formatFileSize(file.size), resolve });
+                event.emit('changeFinish', {
+                    file,
+                    fileSize: formatFileSize(file.size),
+                    resolve
+                });
             });
         }).then(res => {
             taskArr = res ? res(chunks) : [];
