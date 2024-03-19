@@ -1,0 +1,19 @@
+{
+  "include": [
+    "src/**/*"
+  ],
+  "compilerOptions": {
+    "allowJs": true,
+    "checkJs": true,
+    "declaration": true,
+    "outDir": "lib",
+    "esModuleInterop": true,
+    "preserveConstEnums": false,
+    "sourceMap": false,
+    "pretty": true,
+    "lib": [
+      "DOM",
+      "ESNext"
+    ],
+  }
+}
