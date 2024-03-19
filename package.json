@@ -1,6 +1,5 @@
 {
   "name": "easeupload",
-  "private": true,
   "version": "0.0.0",
   "types": "es/index.d.ts",
   "main": "lib/index.js",
