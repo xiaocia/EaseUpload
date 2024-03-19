@@ -2,13 +2,14 @@
   "name": "easeupload",
   "private": true,
   "version": "0.0.0",
+  "types": "es/index.d.ts",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc",
-    "eslint": "eslint src/**",
-
-    "preview": "vite preview"
+    "build": "pnpm run build-common && pnpm run build-es && pnpm run build-script",
+    "build-common": "tsc",
+    "build-es": "tsc -p tsconfig.es.json",
+    "build-script": "vite build",
+    "eslint": "eslint src/**"
   },
   "devDependencies": {
     "@types/node": "^20.11.28",

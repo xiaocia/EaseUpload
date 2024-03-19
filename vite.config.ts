@@ -7,5 +7,6 @@ export default defineConfig({
       name: 'easeupload', // the proper extensions will be added
       fileName: 'easeupload',
     },
+    outDir: 'scripts',
   },
 })
