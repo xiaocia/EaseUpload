@@ -3,6 +3,8 @@
   "private": true,
   "version": "0.0.0",
   "types": "es/index.d.ts",
+  "main": "lib/index.js",
+  "module": "es/index.js",
   "type": "module",
   "scripts": {
     "build": "pnpm run build-common && pnpm run build-es && pnpm run build-script",

@@ -5,6 +5,7 @@
   "compilerOptions": {
     "allowJs": true,
     "checkJs": true,
+    "module": "CommonJS",
     "declaration": true,
     "outDir": "lib",
     "esModuleInterop": true,
