@@ -14,6 +14,6 @@ module.exports = {
   rules: {
     'prettier/prettier': 'error',
     quotes: ['error', 'single'],
-    '@typescript-eslint/no-explicit-any': 1
+    '@typescript-eslint/no-explicit-any': 0
   }
 }

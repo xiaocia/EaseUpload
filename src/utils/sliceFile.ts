@@ -13,7 +13,7 @@ const createChunks = (file: File, sizeNum = 5): Chunk[] => {
       size,
       chunksNum,
       index,
-      offset,
+      offset
     })
     offset += size
     index++

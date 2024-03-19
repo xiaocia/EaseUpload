@@ -25,20 +25,40 @@ const formatFileSize = (bit: number): string => {
   return ''
 }
 
-let taskArr: Task[] = []
+let taskArr: (() => Promise<any>)[] = []
 const Upload = (info: { fileType: string[]; chunkSize: number | boolean; concurrent: number }) => {
   const event = new emitter()
 
   const input = createInput(info.fileType)
 
-  let chunks: Chunk[] = []
+  let chunks: {
+    file: Blob
+    size: number
+    allSize: number
+    chunksNum: number
+    index: number
+    offset: number
+    id: string
+  }[] = []
 
   const show = () => input.click()
 
   input.onchange = () => {
     const file = input.files![0]
 
-    new Promise<(chunks: Chunk[]) => Task[]>(resolve => {
+    new Promise<
+      (
+        chunks: {
+          file: Blob
+          size: number
+          allSize: number
+          chunksNum: number
+          index: number
+          offset: number
+          id: string
+        }[]
+      ) => (() => Promise<any>)[]
+    >(resolve => {
       event.emit('change', null)
       if (typeof info.chunkSize === 'number') {
         // 配置了切片

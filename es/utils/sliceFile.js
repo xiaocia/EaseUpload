@@ -12,7 +12,7 @@ const createChunks = (file, sizeNum = 5) => {
             size,
             chunksNum,
             index,
-            offset,
+            offset
         });
         offset += size;
         index++;
