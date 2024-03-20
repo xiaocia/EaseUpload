@@ -107,7 +107,7 @@ const Upload = (info: { fileType: string[]; chunkSize?: number | boolean; concur
       console.log('开始传输！')
       if (taskArr.length === 0) return
       LimitPromise(taskArr, event, info.concurrent ?? 1)
-      event.on('finished', () => resolve(null))
+      event.on('finished', res => resolve(res))
     })
   }
 

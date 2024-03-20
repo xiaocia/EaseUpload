@@ -26,15 +26,15 @@ const limitPromise = (taskArr, event, limit = 6) => {
         if (runningTaskNum < max && allTask.length !== 0) {
             taskRun();
         }
-        else if (allTask.length === 0 && runningTaskNum === 0) {
-            event.emit('finished', null);
-        }
     };
     const runner = (task) => __awaiter(void 0, void 0, void 0, function* () {
         // 正在运行数+1
         runningTaskNum++;
         const res = yield task();
         event.emit('finishOne', res);
+        if (allTask.length === 0 && runningTaskNum === 0) {
+            event.emit('finished', res);
+        }
         // 执行完了，运行数-1，更新进度并捞取下一个
         runningTaskNum--;
         finishedTask++;

@@ -78,7 +78,7 @@ const Upload = (info) => {
             if (taskArr.length === 0)
                 return;
             LimitPromise(taskArr, event, (_a = info.concurrent) !== null && _a !== void 0 ? _a : 1);
-            event.on('finished', () => resolve(null));
+            event.on('finished', res => resolve(res));
         });
     };
     const cancel = () => {
