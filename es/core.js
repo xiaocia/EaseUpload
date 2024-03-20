@@ -72,11 +72,14 @@ const Upload = (info) => {
         event.on(eventType, callback);
     };
     const start = () => {
-        var _a;
-        console.log('开始传输！');
-        if (taskArr.length === 0)
-            return;
-        LimitPromise(taskArr, event, (_a = info.concurrent) !== null && _a !== void 0 ? _a : 1);
+        return new Promise(resolve => {
+            var _a;
+            console.log('开始传输！');
+            if (taskArr.length === 0)
+                return;
+            LimitPromise(taskArr, event, (_a = info.concurrent) !== null && _a !== void 0 ? _a : 1);
+            event.on('finished', () => resolve(null));
+        });
     };
     const cancel = () => {
         file = null;

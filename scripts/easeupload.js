@@ -118,39 +118,39 @@ var R = /* @__PURE__ */ function() {
 }, G = function(s) {
   var f = q(), u = Object.getPrototypeOf(new f()), c = Object.assign(s || {}, K), a = Object.keys(c).reduce(function(l, h) {
     var p = "is".concat(L(h));
-    return l[p] = function(_, g) {
-      var d = this;
-      s[h](d.VALUE, _) ? d.result(!0, g, p) : d.result(!1, g, p);
+    return l[p] = function(_, d) {
+      var g = this;
+      s[h](g.VALUE, _) ? g.result(!0, d, p) : g.result(!1, d, p);
     }, l;
   }, {});
   return Object.assign(u, a), function(l) {
     return new f().value(l);
   };
 };
-const O = G({});
+const w = G({});
 var W = (
   /** @class */
   /* @__PURE__ */ function() {
     function s() {
       var f = this;
       this.eventBus = {}, this.on = function(u, c) {
-        O(u).isTypeOf(String, "eventName must be a string"), O(c).isTypeOf(Function, "callback must be a funtion");
+        w(u).isTypeOf(String, "eventName must be a string"), w(c).isTypeOf(Function, "callback must be a funtion");
         var a = f.eventBus;
         return Array.isArray(a[u]) ? a[u].push(c) : a[u] = [c], f;
       }, this.emit = function(u, c) {
-        O(u).isTypeOf(String, "eventName must be a string");
+        w(u).isTypeOf(String, "eventName must be a string");
         var a = f.eventBus;
         Array.isArray(a[u]) && a[u].forEach(function(l) {
           return l(c);
         });
       }, this.off = function(u, c) {
-        O(u).isTypeOf(String, "eventName must be a string"), O(c).isTypeOf(Function, "callback must be a funtion");
+        w(u).isTypeOf(String, "eventName must be a string"), w(c).isTypeOf(Function, "callback must be a funtion");
         var a = f.eventBus;
         Array.isArray(a[u]) && (a[u] = a[u].filter(function(l) {
           return c !== l;
         }));
       }, this.once = function(u, c) {
-        O(u).isTypeOf(String, "eventName must be a string"), O(c).isTypeOf(Function, "callback must be a funtion");
+        w(u).isTypeOf(String, "eventName must be a string"), w(c).isTypeOf(Function, "callback must be a funtion");
         var a = function() {
           for (var l = [], h = 0; h < arguments.length; h++)
             l[h] = arguments[h];
@@ -227,19 +227,19 @@ var F = { exports: {} };
           r[t] = 0;
       return b = i * 8, b = b.toString(16).match(/(.*?)(.{0,8})$/), A = parseInt(b[2], 16), v = parseInt(b[1], 16) || 0, r[14] = A, r[15] = v, a(e, r), e;
     }
-    function g(o) {
+    function d(o) {
       var i = "", e;
       for (e = 0; e < 4; e += 1)
         i += c[o >> e * 8 + 4 & 15] + c[o >> e * 8 & 15];
       return i;
     }
-    function d(o) {
+    function g(o) {
       var i;
       for (i = 0; i < o.length; i += 1)
-        o[i] = g(o[i]);
+        o[i] = d(o[i]);
       return o.join("");
     }
-    d(p("hello")), typeof ArrayBuffer < "u" && !ArrayBuffer.prototype.slice && function() {
+    g(p("hello")), typeof ArrayBuffer < "u" && !ArrayBuffer.prototype.slice && function() {
       function o(i, e) {
         return i = i | 0 || 0, i < 0 ? Math.max(i + e, 0) : Math.min(i, e);
       }
@@ -251,7 +251,7 @@ var F = { exports: {} };
     function m(o) {
       return /[\u0080-\uFFFF]/.test(o) && (o = unescape(encodeURIComponent(o))), o;
     }
-    function w(o, i) {
+    function O(o, i) {
       var e = o.length, t = new ArrayBuffer(e), n = new Uint8Array(t), r;
       for (r = 0; r < e; r += 1)
         n[r] = o.charCodeAt(r);
@@ -285,7 +285,7 @@ var F = { exports: {} };
       var i = this._buff, e = i.length, t, n = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], r;
       for (t = 0; t < e; t += 1)
         n[t >> 2] |= i.charCodeAt(t) << (t % 4 << 3);
-      return this._finish(n, e), r = d(this._hash), o && (r = S(r)), this.reset(), r;
+      return this._finish(n, e), r = g(this._hash), o && (r = S(r)), this.reset(), r;
     }, y.prototype.reset = function() {
       return this._buff = "", this._length = 0, this._hash = [1732584193, -271733879, -1732584194, 271733878], this;
     }, y.prototype.getState = function() {
@@ -307,7 +307,7 @@ var F = { exports: {} };
     }, y.hash = function(o, i) {
       return y.hashBinary(m(o), i);
     }, y.hashBinary = function(o, i) {
-      var e = p(o), t = d(e);
+      var e = p(o), t = g(e);
       return i ? S(t) : t;
     }, y.ArrayBuffer = function() {
       this.reset();
@@ -320,16 +320,16 @@ var F = { exports: {} };
       var i = this._buff, e = i.length, t = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], n, r;
       for (n = 0; n < e; n += 1)
         t[n >> 2] |= i[n] << (n % 4 << 3);
-      return this._finish(t, e), r = d(this._hash), o && (r = S(r)), this.reset(), r;
+      return this._finish(t, e), r = g(this._hash), o && (r = S(r)), this.reset(), r;
     }, y.ArrayBuffer.prototype.reset = function() {
       return this._buff = new Uint8Array(0), this._length = 0, this._hash = [1732584193, -271733879, -1732584194, 271733878], this;
     }, y.ArrayBuffer.prototype.getState = function() {
       var o = y.prototype.getState.call(this);
       return o.buff = E(o.buff), o;
     }, y.ArrayBuffer.prototype.setState = function(o) {
-      return o.buff = w(o.buff, !0), y.prototype.setState.call(this, o);
+      return o.buff = O(o.buff, !0), y.prototype.setState.call(this, o);
     }, y.ArrayBuffer.prototype.destroy = y.prototype.destroy, y.ArrayBuffer.prototype._finish = y.prototype._finish, y.ArrayBuffer.hash = function(o, i) {
-      var e = _(new Uint8Array(o)), t = d(e);
+      var e = _(new Uint8Array(o)), t = g(e);
       return i ? S(t) : t;
     }, y;
   });
@@ -353,14 +353,14 @@ const X = /* @__PURE__ */ J(Q), Y = (s) => new Promise((f) => {
   }
   const c = new X(), a = (/* @__PURE__ */ new Date()).valueOf(), l = (h) => {
     if (h >= u.length) {
-      const g = c.end(!1);
-      console.log("计算hash用时:", ((/* @__PURE__ */ new Date()).valueOf() - a) / 1e3), f(g);
+      const d = c.end(!1);
+      console.log("计算hash用时:", ((/* @__PURE__ */ new Date()).valueOf() - a) / 1e3), f(d);
       return;
     }
     const p = u[h].file, _ = new FileReader();
-    _.onload = (g) => {
-      const d = g.target.result;
-      d && c.append(d), l(h + 1);
+    _.onload = (d) => {
+      const g = d.target.result;
+      g && c.append(g), l(h + 1);
     }, _.readAsText(p);
   };
   l(0);
@@ -372,13 +372,13 @@ const X = /* @__PURE__ */ J(Q), Y = (s) => new Promise((f) => {
   let p = 0;
   const _ = () => {
     const m = c.shift();
-    m && d(m);
-  }, g = () => {
+    m && g(m);
+  }, d = () => {
     p < h && c.length !== 0 ? _() : c.length === 0 && p === 0 && f.emit("finished", null);
-  }, d = async (m) => {
+  }, g = async (m) => {
     p++;
-    const w = await m();
-    f.emit("finishOne", w), p--, l++, f.emit("progress", (l / a * 100).toFixed(2)), g();
+    const O = await m();
+    f.emit("finishOne", O), p--, l++, f.emit("progress", (l / a * 100).toFixed(2)), d();
   };
   for (f.on("cancel", () => {
     c = [];
@@ -394,7 +394,7 @@ const et = (s) => {
   let c = [], a;
   const l = () => u.click();
   return u.onchange = () => {
-    a = u.files[0], new Promise((g) => {
+    a = u.files[0], new Promise((d) => {
       if (f.emit("change", null), typeof s.chunkSize == "number") {
         if (a.size < s.chunkSize * 1024 * 1024)
           return console.error("文件比切片小");
@@ -411,21 +411,21 @@ const et = (s) => {
             id: ""
           }
         ]);
-      Y(c).then((d) => {
-        c = c.map((m, w) => ({ ...m, id: `${d}-${w}` })), f.emit("changeFinish", {
+      Y(c).then((g) => {
+        c = c.map((m, O) => ({ ...m, id: `${g}-${O}` })), f.emit("changeFinish", {
           file: a,
           fileSize: tt(a.size),
-          resolve: g
+          resolve: d
         });
       });
-    }).then((g) => {
-      B = g ? g(c) : [];
+    }).then((d) => {
+      B = d ? d(c) : [];
     });
-  }, { show: l, addListener: (g, d) => {
-    f.on(g, d);
-  }, start: () => {
-    console.log("开始传输！"), B.length !== 0 && Z(B, f, s.concurrent ?? 1);
-  }, cancel: () => {
+  }, { show: l, addListener: (d, g) => {
+    f.on(d, g);
+  }, start: () => new Promise((d) => {
+    console.log("开始传输！"), B.length !== 0 && (Z(B, f, s.concurrent ?? 1), f.on("finished", () => d(null)));
+  }), cancel: () => {
     a = null, u.remove(), f.emit("cancel", null);
   } };
 };

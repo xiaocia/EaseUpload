@@ -6,7 +6,7 @@ declare const Upload: (info: {
 }) => {
     show: () => void;
     addListener: <T extends keyof Event<any>>(eventType: T, callback: Event[T]) => void;
-    start: () => void;
+    start: () => Promise<unknown>;
     cancel: () => void;
 };
 export default Upload;

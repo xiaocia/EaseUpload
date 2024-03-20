@@ -103,9 +103,12 @@ const Upload = (info: { fileType: string[]; chunkSize?: number | boolean; concur
   }
 
   const start = () => {
-    console.log('开始传输！')
-    if (taskArr.length === 0) return
-    LimitPromise(taskArr, event, info.concurrent ?? 1)
+    return new Promise(resolve => {
+      console.log('开始传输！')
+      if (taskArr.length === 0) return
+      LimitPromise(taskArr, event, info.concurrent ?? 1)
+      event.on('finished', () => resolve(null))
+    })
   }
 
   const cancel = () => {
