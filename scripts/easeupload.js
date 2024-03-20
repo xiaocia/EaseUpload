@@ -378,7 +378,7 @@ const X = /* @__PURE__ */ J(Q), Y = (s) => new Promise((f) => {
   }, d = async (m) => {
     p++;
     const O = await m();
-    f.emit("finishOne", O), c.length === 0 && p === 0 && f.emit("finished", O), p--, l++, f.emit("progress", (l / a * 100).toFixed(2)), g();
+    f.emit("finishOne", O), p--, c.length === 0 && p === 0 && f.emit("finished", O), l++, f.emit("progress", (l / a * 100).toFixed(2)), g();
   };
   for (f.on("cancel", () => {
     c = [];

@@ -32,12 +32,12 @@ const limitPromise = (taskArr: task[], event: Emitter, limit = 6) => {
     runningTaskNum++
     const res = await task()
     event.emit('finishOne', res)
-    if (allTask.length === 0 && runningTaskNum === 0) {
-      event.emit('finished', res)
-    }
 
     // 执行完了，运行数-1，更新进度并捞取下一个
     runningTaskNum--
+    if (allTask.length === 0 && runningTaskNum === 0) {
+      event.emit('finished', res)
+    }
     finishedTask++
     event.emit('progress', ((finishedTask / allProgress) * 100).toFixed(2))
     next()
