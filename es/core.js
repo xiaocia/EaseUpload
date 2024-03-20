@@ -80,8 +80,8 @@ const Upload = (info) => {
     };
     const cancel = () => {
         file = null;
+        input.remove();
         event.emit('cancel', null);
-        event.emit('changeFinish', { file: null, fileSize: null, resolve: null });
     };
     return { show, addListener, start, cancel };
 };

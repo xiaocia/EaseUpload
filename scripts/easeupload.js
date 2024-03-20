@@ -426,7 +426,7 @@ const et = (s) => {
   }, start: () => {
     console.log("开始传输！"), B.length !== 0 && Z(B, f, s.concurrent ?? 1);
   }, cancel: () => {
-    a = null, f.emit("cancel", null), f.emit("changeFinish", { file: null, fileSize: null, resolve: null });
+    a = null, u.remove(), f.emit("cancel", null);
   } };
 };
 export {
