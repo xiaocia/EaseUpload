@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 const limitPromise = (taskArr, event, limit = 6) => {
     // 所有的任务
-    const allTask = [...taskArr];
+    let allTask = [...taskArr];
     // 总进度
     const allProgress = allTask.length;
     // 完成的
@@ -26,16 +26,23 @@ const limitPromise = (taskArr, event, limit = 6) => {
         if (runningTaskNum < max && allTask.length !== 0) {
             taskRun();
         }
+        else if (allTask.length === 0 && runningTaskNum === 0) {
+            event.emit('finished', null);
+        }
     };
     const runner = (task) => __awaiter(void 0, void 0, void 0, function* () {
         // 正在运行数+1
         runningTaskNum++;
-        yield task();
+        const res = yield task();
+        event.emit('finishOne', res);
         // 执行完了，运行数-1，更新进度并捞取下一个
         runningTaskNum--;
         finishedTask++;
         event.emit('progress', ((finishedTask / allProgress) * 100).toFixed(2));
         next();
+    });
+    event.on('cancel', () => {
+        allTask = [];
     });
     while (runningTaskNum < max) {
         taskRun();

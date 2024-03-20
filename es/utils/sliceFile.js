@@ -6,7 +6,7 @@ const createChunks = (file, sizeNum = 5) => {
     const chunksNum = Math.ceil(file.size / size);
     while (offset < file.size) {
         chunkList.push({
-            file: file.slice(offset, offset + size),
+            file: file.slice(offset, offset + size, file.name),
             allSize: file.size,
             id: '',
             size,

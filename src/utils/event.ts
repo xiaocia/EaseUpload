@@ -1,6 +1,9 @@
-export type Event = {
+export type Event<T = any> = {
   change: () => void
-  progress: (progress: string) => void
+  progress: (progress: number) => void
+  cancel: () => void
+  finished: () => void
+  finishOne: (res: T) => void
   changeFinish: (payload: {
     file: File
     fileSize: string
@@ -15,7 +18,7 @@ export type Event = {
           offset: number
           id: string
         }[]
-      ) => (() => Promise<any>)[]
+      ) => (() => Promise<T>)[]
     ) => void
   }) => void
 }

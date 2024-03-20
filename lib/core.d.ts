@@ -5,7 +5,8 @@ declare const Upload: (info: {
     concurrent: number;
 }) => {
     show: () => void;
-    addListener: <T extends keyof Event>(eventType: T, callback: Event[T]) => void;
+    addListener: <T extends keyof Event<any>>(eventType: T, callback: Event[T]) => void;
     start: () => void;
+    cancel: () => void;
 };
 export default Upload;

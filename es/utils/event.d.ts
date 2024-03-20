@@ -1,6 +1,9 @@
-export type Event = {
+export type Event<T = any> = {
     change: () => void;
-    progress: (progress: string) => void;
+    progress: (progress: number) => void;
+    cancel: () => void;
+    finished: () => void;
+    finishOne: (res: T) => void;
     changeFinish: (payload: {
         file: File;
         fileSize: string;
@@ -12,7 +15,7 @@ export type Event = {
             index: number;
             offset: number;
             id: string;
-        }[]) => (() => Promise<any>)[]) => void;
+        }[]) => (() => Promise<T>)[]) => void;
     }) => void;
 };
 export type EventName = keyof Event;

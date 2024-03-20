@@ -107,7 +107,11 @@ const Upload = (info: { fileType: string[]; chunkSize: number | boolean; concurr
     LimitPromise(taskArr, event, info.concurrent)
   }
 
-  return { show, addListener, start }
+  const cancel = () => {
+    event.emit('cancel', null)
+  }
+
+  return { show, addListener, start, cancel }
 }
 
 export default Upload

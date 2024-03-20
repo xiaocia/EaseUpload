@@ -3,7 +3,7 @@ export type task = () => Promise<any>
 
 const limitPromise = (taskArr: task[], event: Emitter, limit = 6) => {
   // 所有的任务
-  const allTask = [...taskArr]
+  let allTask = [...taskArr]
 
   // 总进度
   const allProgress = allTask.length
@@ -24,13 +24,16 @@ const limitPromise = (taskArr: task[], event: Emitter, limit = 6) => {
   const next = () => {
     if (runningTaskNum < max && allTask.length !== 0) {
       taskRun()
+    } else if (allTask.length === 0 && runningTaskNum === 0) {
+      event.emit('finished', null)
     }
   }
 
   const runner = async (task: task) => {
     // 正在运行数+1
     runningTaskNum++
-    await task()
+    const res = await task()
+    event.emit('finishOne', res)
 
     // 执行完了，运行数-1，更新进度并捞取下一个
     runningTaskNum--
@@ -38,6 +41,10 @@ const limitPromise = (taskArr: task[], event: Emitter, limit = 6) => {
     event.emit('progress', ((finishedTask / allProgress) * 100).toFixed(2))
     next()
   }
+
+  event.on('cancel', () => {
+    allTask = []
+  })
 
   while (runningTaskNum < max) {
     taskRun()

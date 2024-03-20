@@ -76,6 +76,9 @@ const Upload = (info) => {
             return;
         LimitPromise(taskArr, event, info.concurrent);
     };
-    return { show, addListener, start };
+    const cancel = () => {
+        event.emit('cancel', null);
+    };
+    return { show, addListener, start, cancel };
 };
 export default Upload;
