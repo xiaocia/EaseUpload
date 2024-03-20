@@ -16,6 +16,9 @@ const limitPromise = (taskArr: task[], event: Emitter, limit = 6) => {
   // 正在并发数
   let runningTaskNum = 0
 
+  //取消状态
+  let cancel = false
+
   const taskRun = () => {
     const task = allTask.shift()
     task && runner(task)
@@ -35,7 +38,7 @@ const limitPromise = (taskArr: task[], event: Emitter, limit = 6) => {
 
     // 执行完了，运行数-1，更新进度并捞取下一个
     runningTaskNum--
-    if (allTask.length === 0 && runningTaskNum === 0) {
+    if (allTask.length === 0 && runningTaskNum === 0 && cancel !== true) {
       event.emit('finished', res)
     }
     finishedTask++
@@ -45,6 +48,7 @@ const limitPromise = (taskArr: task[], event: Emitter, limit = 6) => {
 
   event.on('cancel', () => {
     allTask = []
+    cancel = true
   })
 
   while (runningTaskNum < max) {

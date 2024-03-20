@@ -4,17 +4,17 @@ var L = function(s, f, u) {
 function P(s, f) {
   return Object.is(s, f);
 }
-function U(s, f) {
+function F(s, f) {
   for (; Object.getPrototypeOf(s); )
     if (s = Object.getPrototypeOf(s), (s == null ? void 0 : s.constructor) === f)
       return !0;
   return !1;
 }
-function z(s) {
+function j(s) {
   return !!Number.isInteger(s);
 }
 function M(s, f) {
-  if (!U(f, Array) || !z(s))
+  if (!F(f, Array) || !j(s))
     return !1;
   var u = f[0], c = f[1];
   return u <= s && c >= s;
@@ -22,23 +22,23 @@ function M(s, f) {
 function N(s) {
   return !!s;
 }
-function j(s, f) {
+function T(s, f) {
   if (Object.is(s, f))
     return !0;
   if (typeof s != "object" || typeof f != "object" || (s == null ? void 0 : s.constructor) !== (f == null ? void 0 : f.constructor) || [s, f].includes(null))
     return !1;
   var u = Object.keys(s), c = Object.keys(f);
   return u.length !== c.length ? !1 : u.every(function(a) {
-    return j(s[a], f[a]);
+    return T(s[a], f[a]);
   });
 }
 function x(s, f) {
   return f.includes(s) ? !0 : f.findIndex(function(u) {
-    return j(u, s);
+    return T(u, s);
   }) > -1;
 }
 function V(s) {
-  return z(s) ? s > 0 : !1;
+  return j(s) ? s > 0 : !1;
 }
 var $ = [null, void 0, !1, NaN];
 function D(s) {
@@ -48,13 +48,13 @@ const K = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
   equal: P,
   inRange: M,
-  int: z,
+  int: j,
   ok: N,
   oneOf: x,
   positiveInt: V,
-  shallowEq: j,
+  shallowEq: T,
   truth: D,
-  typeOf: U
+  typeOf: F
 }, Symbol.toStringTag, { value: "Module" }));
 var R = /* @__PURE__ */ function() {
   var s = function(f, u) {
@@ -74,7 +74,7 @@ var R = /* @__PURE__ */ function() {
     }
     f.prototype = u === null ? Object.create(u) : (c.prototype = u.prototype, new c());
   };
-}(), C = (
+}(), U = (
   /** @class */
   function(s) {
     R(f, s);
@@ -97,8 +97,8 @@ var R = /* @__PURE__ */ function() {
       return s.prototype.result = function(f, u, c) {
         if (!(f && !this.NOT) && !(!f && this.NOT)) {
           var a = u ? "".concat(u) : "".concat(c, " assert error");
-          if (this.SLIENT && console.warn(new C(a)), !this.SLIENT)
-            throw new C(a);
+          if (this.SLIENT && console.warn(new U(a)), !this.SLIENT)
+            throw new U(a);
         }
       }, Object.defineProperty(s.prototype, "not", {
         get: function() {
@@ -183,7 +183,7 @@ const H = (s, f = 5) => {
 function J(s) {
   return s && s.__esModule && Object.prototype.hasOwnProperty.call(s, "default") ? s.default : s;
 }
-var F = { exports: {} };
+var E = { exports: {} };
 (function(s, f) {
   (function(u) {
     s.exports = u();
@@ -206,7 +206,7 @@ var F = { exports: {} };
       return i;
     }
     function p(o) {
-      var i = o.length, e = [1732584193, -271733879, -1732584194, 271733878], t, n, r, b, A, v;
+      var i = o.length, e = [1732584193, -271733879, -1732584194, 271733878], t, n, r, b, m, v;
       for (t = 64; t <= i; t += 64)
         a(e, l(o.substring(t - 64, t)));
       for (o = o.substring(t - 64), n = o.length, r = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], t = 0; t < n; t += 1)
@@ -214,10 +214,10 @@ var F = { exports: {} };
       if (r[t >> 2] |= 128 << (t % 4 << 3), t > 55)
         for (a(e, r), t = 0; t < 16; t += 1)
           r[t] = 0;
-      return b = i * 8, b = b.toString(16).match(/(.*?)(.{0,8})$/), A = parseInt(b[2], 16), v = parseInt(b[1], 16) || 0, r[14] = A, r[15] = v, a(e, r), e;
+      return b = i * 8, b = b.toString(16).match(/(.*?)(.{0,8})$/), m = parseInt(b[2], 16), v = parseInt(b[1], 16) || 0, r[14] = m, r[15] = v, a(e, r), e;
     }
     function _(o) {
-      var i = o.length, e = [1732584193, -271733879, -1732584194, 271733878], t, n, r, b, A, v;
+      var i = o.length, e = [1732584193, -271733879, -1732584194, 271733878], t, n, r, b, m, v;
       for (t = 64; t <= i; t += 64)
         a(e, h(o.subarray(t - 64, t)));
       for (o = t - 64 < i ? o.subarray(t - 64) : new Uint8Array(0), n = o.length, r = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], t = 0; t < n; t += 1)
@@ -225,7 +225,7 @@ var F = { exports: {} };
       if (r[t >> 2] |= 128 << (t % 4 << 3), t > 55)
         for (a(e, r), t = 0; t < 16; t += 1)
           r[t] = 0;
-      return b = i * 8, b = b.toString(16).match(/(.*?)(.{0,8})$/), A = parseInt(b[2], 16), v = parseInt(b[1], 16) || 0, r[14] = A, r[15] = v, a(e, r), e;
+      return b = i * 8, b = b.toString(16).match(/(.*?)(.{0,8})$/), m = parseInt(b[2], 16), v = parseInt(b[1], 16) || 0, r[14] = m, r[15] = v, a(e, r), e;
     }
     function g(o) {
       var i = "", e;
@@ -244,27 +244,27 @@ var F = { exports: {} };
         return i = i | 0 || 0, i < 0 ? Math.max(i + e, 0) : Math.min(i, e);
       }
       ArrayBuffer.prototype.slice = function(i, e) {
-        var t = this.byteLength, n = o(i, t), r = t, b, A, v, T;
-        return e !== u && (r = o(e, t)), n > r ? new ArrayBuffer(0) : (b = r - n, A = new ArrayBuffer(b), v = new Uint8Array(A), T = new Uint8Array(this, n, b), v.set(T), A);
+        var t = this.byteLength, n = o(i, t), r = t, b, m, v, C;
+        return e !== u && (r = o(e, t)), n > r ? new ArrayBuffer(0) : (b = r - n, m = new ArrayBuffer(b), v = new Uint8Array(m), C = new Uint8Array(this, n, b), v.set(C), m);
       };
     }();
-    function m(o) {
+    function w(o) {
       return /[\u0080-\uFFFF]/.test(o) && (o = unescape(encodeURIComponent(o))), o;
     }
-    function w(o, i) {
+    function A(o, i) {
       var e = o.length, t = new ArrayBuffer(e), n = new Uint8Array(t), r;
       for (r = 0; r < e; r += 1)
         n[r] = o.charCodeAt(r);
       return i ? n : t;
     }
-    function E(o) {
+    function S(o) {
       return String.fromCharCode.apply(null, new Uint8Array(o));
     }
     function I(o, i, e) {
       var t = new Uint8Array(o.byteLength + i.byteLength);
       return t.set(new Uint8Array(o)), t.set(new Uint8Array(i), o.byteLength), e ? t : t.buffer;
     }
-    function S(o) {
+    function B(o) {
       var i = [], e = o.length, t;
       for (t = 0; t < e - 1; t += 2)
         i.push(parseInt(o.substr(t, 2), 16));
@@ -274,7 +274,7 @@ var F = { exports: {} };
       this.reset();
     }
     return y.prototype.append = function(o) {
-      return this.appendBinary(m(o)), this;
+      return this.appendBinary(w(o)), this;
     }, y.prototype.appendBinary = function(o) {
       this._buff += o, this._length += o.length;
       var i = this._buff.length, e;
@@ -285,7 +285,7 @@ var F = { exports: {} };
       var i = this._buff, e = i.length, t, n = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], r;
       for (t = 0; t < e; t += 1)
         n[t >> 2] |= i.charCodeAt(t) << (t % 4 << 3);
-      return this._finish(n, e), r = d(this._hash), o && (r = S(r)), this.reset(), r;
+      return this._finish(n, e), r = d(this._hash), o && (r = B(r)), this.reset(), r;
     }, y.prototype.reset = function() {
       return this._buff = "", this._length = 0, this._hash = [1732584193, -271733879, -1732584194, 271733878], this;
     }, y.prototype.getState = function() {
@@ -305,10 +305,10 @@ var F = { exports: {} };
           o[e] = 0;
       t = this._length * 8, t = t.toString(16).match(/(.*?)(.{0,8})$/), n = parseInt(t[2], 16), r = parseInt(t[1], 16) || 0, o[14] = n, o[15] = r, a(this._hash, o);
     }, y.hash = function(o, i) {
-      return y.hashBinary(m(o), i);
+      return y.hashBinary(w(o), i);
     }, y.hashBinary = function(o, i) {
       var e = p(o), t = d(e);
-      return i ? S(t) : t;
+      return i ? B(t) : t;
     }, y.ArrayBuffer = function() {
       this.reset();
     }, y.ArrayBuffer.prototype.append = function(o) {
@@ -320,21 +320,21 @@ var F = { exports: {} };
       var i = this._buff, e = i.length, t = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], n, r;
       for (n = 0; n < e; n += 1)
         t[n >> 2] |= i[n] << (n % 4 << 3);
-      return this._finish(t, e), r = d(this._hash), o && (r = S(r)), this.reset(), r;
+      return this._finish(t, e), r = d(this._hash), o && (r = B(r)), this.reset(), r;
     }, y.ArrayBuffer.prototype.reset = function() {
       return this._buff = new Uint8Array(0), this._length = 0, this._hash = [1732584193, -271733879, -1732584194, 271733878], this;
     }, y.ArrayBuffer.prototype.getState = function() {
       var o = y.prototype.getState.call(this);
-      return o.buff = E(o.buff), o;
+      return o.buff = S(o.buff), o;
     }, y.ArrayBuffer.prototype.setState = function(o) {
-      return o.buff = w(o.buff, !0), y.prototype.setState.call(this, o);
+      return o.buff = A(o.buff, !0), y.prototype.setState.call(this, o);
     }, y.ArrayBuffer.prototype.destroy = y.prototype.destroy, y.ArrayBuffer.prototype._finish = y.prototype._finish, y.ArrayBuffer.hash = function(o, i) {
       var e = _(new Uint8Array(o)), t = d(e);
-      return i ? S(t) : t;
+      return i ? B(t) : t;
     }, y;
   });
-})(F);
-var Q = F.exports;
+})(E);
+var Q = E.exports;
 const X = /* @__PURE__ */ J(Q), Y = (s) => new Promise((f) => {
   const u = [];
   if (s.length !== 1)
@@ -369,26 +369,26 @@ const X = /* @__PURE__ */ J(Q), Y = (s) => new Promise((f) => {
   const a = c.length;
   let l = 0;
   const h = Math.min(c.length, u);
-  let p = 0;
-  const _ = () => {
-    const m = c.shift();
-    m && d(m);
-  }, g = () => {
-    p < h && c.length !== 0 && _();
-  }, d = async (m) => {
+  let p = 0, _ = !1;
+  const g = () => {
+    const A = c.shift();
+    A && w(A);
+  }, d = () => {
+    p < h && c.length !== 0 && g();
+  }, w = async (A) => {
     p++;
-    const w = await m();
-    f.emit("finishOne", w), p--, c.length === 0 && p === 0 && f.emit("finished", w), l++, f.emit("progress", (l / a * 100).toFixed(2)), g();
+    const S = await A();
+    f.emit("finishOne", S), p--, c.length === 0 && p === 0 && _ !== !0 && f.emit("finished", S), l++, f.emit("progress", (l / a * 100).toFixed(2)), d();
   };
   for (f.on("cancel", () => {
-    c = [];
+    c = [], _ = !0;
   }); p < h; )
-    _();
+    g();
 }, k = (s) => {
   const f = document.createElement("input");
   return f.type = "file", s && (f.accept = s == null ? void 0 : s.join()), f.style.display = "none", document.getElementsByTagName("body")[0].appendChild(f), f;
 }, tt = (s) => s < 1024 * 1024 ? (s / 1024).toFixed(2) + " KB" : s < 1024 * 1024 * 1024 ? (s / 1024 / 1024).toFixed(2) + " MB" : s < 1024 * 1024 * 1024 * 1024 ? (s / 1024 / 1024 / 1024).toFixed(2) + " GB" : "";
-let B = [];
+let z = [];
 const et = (s) => {
   const f = new W(), u = k(s.fileType);
   let c = [], a;
@@ -412,19 +412,19 @@ const et = (s) => {
           }
         ]);
       Y(c).then((d) => {
-        c = c.map((m, w) => ({ ...m, id: `${d}-${w}` })), f.emit("changeFinish", {
+        c = c.map((w, A) => ({ ...w, id: `${d}-${A}` })), f.emit("changeFinish", {
           file: a,
           fileSize: tt(a.size),
           resolve: g
         });
       });
     }).then((g) => {
-      B = g ? g(c) : [];
+      z = g ? g(c) : [];
     });
   }, { show: l, addListener: (g, d) => {
     f.on(g, d);
   }, start: () => new Promise((g) => {
-    console.log("开始传输！"), B.length !== 0 && (Z(B, f, s.concurrent ?? 1), f.on("finished", (d) => g(d)), f.on("finishOne", (d) => {
+    console.log("开始传输！"), z.length !== 0 && (Z(z, f, s.concurrent ?? 1), f.on("finished", (d) => g(d)), f.on("finishOne", (d) => {
       d.success || g(d);
     }));
   }), cancel: () => {
