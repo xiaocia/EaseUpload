@@ -127,30 +127,30 @@ var R = /* @__PURE__ */ function() {
     return new f().value(l);
   };
 };
-const w = G({});
+const O = G({});
 var W = (
   /** @class */
   /* @__PURE__ */ function() {
     function s() {
       var f = this;
       this.eventBus = {}, this.on = function(u, c) {
-        w(u).isTypeOf(String, "eventName must be a string"), w(c).isTypeOf(Function, "callback must be a funtion");
+        O(u).isTypeOf(String, "eventName must be a string"), O(c).isTypeOf(Function, "callback must be a funtion");
         var a = f.eventBus;
         return Array.isArray(a[u]) ? a[u].push(c) : a[u] = [c], f;
       }, this.emit = function(u, c) {
-        w(u).isTypeOf(String, "eventName must be a string");
+        O(u).isTypeOf(String, "eventName must be a string");
         var a = f.eventBus;
         Array.isArray(a[u]) && a[u].forEach(function(l) {
           return l(c);
         });
       }, this.off = function(u, c) {
-        w(u).isTypeOf(String, "eventName must be a string"), w(c).isTypeOf(Function, "callback must be a funtion");
+        O(u).isTypeOf(String, "eventName must be a string"), O(c).isTypeOf(Function, "callback must be a funtion");
         var a = f.eventBus;
         Array.isArray(a[u]) && (a[u] = a[u].filter(function(l) {
           return c !== l;
         }));
       }, this.once = function(u, c) {
-        w(u).isTypeOf(String, "eventName must be a string"), w(c).isTypeOf(Function, "callback must be a funtion");
+        O(u).isTypeOf(String, "eventName must be a string"), O(c).isTypeOf(Function, "callback must be a funtion");
         var a = function() {
           for (var l = [], h = 0; h < arguments.length; h++)
             l[h] = arguments[h];
@@ -251,7 +251,7 @@ var F = { exports: {} };
     function m(o) {
       return /[\u0080-\uFFFF]/.test(o) && (o = unescape(encodeURIComponent(o))), o;
     }
-    function O(o, i) {
+    function w(o, i) {
       var e = o.length, t = new ArrayBuffer(e), n = new Uint8Array(t), r;
       for (r = 0; r < e; r += 1)
         n[r] = o.charCodeAt(r);
@@ -327,7 +327,7 @@ var F = { exports: {} };
       var o = y.prototype.getState.call(this);
       return o.buff = E(o.buff), o;
     }, y.ArrayBuffer.prototype.setState = function(o) {
-      return o.buff = O(o.buff, !0), y.prototype.setState.call(this, o);
+      return o.buff = w(o.buff, !0), y.prototype.setState.call(this, o);
     }, y.ArrayBuffer.prototype.destroy = y.prototype.destroy, y.ArrayBuffer.prototype._finish = y.prototype._finish, y.ArrayBuffer.hash = function(o, i) {
       var e = _(new Uint8Array(o)), t = d(e);
       return i ? S(t) : t;
@@ -377,8 +377,8 @@ const X = /* @__PURE__ */ J(Q), Y = (s) => new Promise((f) => {
     p < h && c.length !== 0 && _();
   }, d = async (m) => {
     p++;
-    const O = await m();
-    f.emit("finishOne", O), p--, c.length === 0 && p === 0 && f.emit("finished", O), l++, f.emit("progress", (l / a * 100).toFixed(2)), g();
+    const w = await m();
+    f.emit("finishOne", w), p--, c.length === 0 && p === 0 && f.emit("finished", w), l++, f.emit("progress", (l / a * 100).toFixed(2)), g();
   };
   for (f.on("cancel", () => {
     c = [];
@@ -412,7 +412,7 @@ const et = (s) => {
           }
         ]);
       Y(c).then((d) => {
-        c = c.map((m, O) => ({ ...m, id: `${d}-${O}` })), f.emit("changeFinish", {
+        c = c.map((m, w) => ({ ...m, id: `${d}-${w}` })), f.emit("changeFinish", {
           file: a,
           fileSize: tt(a.size),
           resolve: g
@@ -424,7 +424,9 @@ const et = (s) => {
   }, { show: l, addListener: (g, d) => {
     f.on(g, d);
   }, start: () => new Promise((g) => {
-    console.log("开始传输！"), B.length !== 0 && (Z(B, f, s.concurrent ?? 1), f.on("finished", (d) => g(d)));
+    console.log("开始传输！"), B.length !== 0 && (Z(B, f, s.concurrent ?? 1), f.on("finished", (d) => g(d)), f.on("finishOne", (d) => {
+      d.success || g(d);
+    }));
   }), cancel: () => {
     a = null, u.remove(), f.emit("cancel", null);
   } };

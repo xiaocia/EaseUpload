@@ -108,6 +108,11 @@ const Upload = (info: { fileType: string[]; chunkSize?: number | boolean; concur
       if (taskArr.length === 0) return
       LimitPromise(taskArr, event, info.concurrent ?? 1)
       event.on('finished', res => resolve(res))
+      event.on('finishOne', res => {
+        if (!res.success) {
+          resolve(res)
+        }
+      })
     })
   }
 
