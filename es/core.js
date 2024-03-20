@@ -27,9 +27,10 @@ const Upload = (info) => {
     const event = new emitter();
     const input = createInput(info.fileType);
     let chunks = [];
+    let file;
     const show = () => input.click();
     input.onchange = () => {
-        const file = input.files[0];
+        file = input.files[0];
         new Promise(resolve => {
             event.emit('change', null);
             if (typeof info.chunkSize === 'number') {
@@ -39,7 +40,7 @@ const Upload = (info) => {
                 // 开始切片
                 chunks = createChunks(file, info.chunkSize);
             }
-            else if (info.chunkSize === false) {
+            else if (info.chunkSize === false || info.chunkSize === undefined) {
                 chunks = [
                     {
                         file: file,
@@ -71,13 +72,16 @@ const Upload = (info) => {
         event.on(eventType, callback);
     };
     const start = () => {
+        var _a;
         console.log('开始传输！');
         if (taskArr.length === 0)
             return;
-        LimitPromise(taskArr, event, info.concurrent);
+        LimitPromise(taskArr, event, (_a = info.concurrent) !== null && _a !== void 0 ? _a : 1);
     };
     const cancel = () => {
+        file = null;
         event.emit('cancel', null);
+        event.emit('changeFinish', { file: null, fileSize: null, resolve: null });
     };
     return { show, addListener, start, cancel };
 };

@@ -26,7 +26,7 @@ const formatFileSize = (bit: number): string => {
 }
 
 let taskArr: (() => Promise<any>)[] = []
-const Upload = (info: { fileType: string[]; chunkSize: number | boolean; concurrent: number }) => {
+const Upload = (info: { fileType: string[]; chunkSize?: number | boolean; concurrent?: number }) => {
   const event = new emitter()
 
   const input = createInput(info.fileType)
@@ -40,11 +40,12 @@ const Upload = (info: { fileType: string[]; chunkSize: number | boolean; concurr
     offset: number
     id: string
   }[] = []
+  let file
 
   const show = () => input.click()
 
   input.onchange = () => {
-    const file = input.files![0]
+    file = input.files![0]
 
     new Promise<
       (
@@ -66,7 +67,7 @@ const Upload = (info: { fileType: string[]; chunkSize: number | boolean; concurr
 
         // 开始切片
         chunks = createChunks(file, info.chunkSize)
-      } else if (info.chunkSize === false) {
+      } else if (info.chunkSize === false || info.chunkSize === undefined) {
         chunks = [
           {
             file: file,
@@ -104,11 +105,13 @@ const Upload = (info: { fileType: string[]; chunkSize: number | boolean; concurr
   const start = () => {
     console.log('开始传输！')
     if (taskArr.length === 0) return
-    LimitPromise(taskArr, event, info.concurrent)
+    LimitPromise(taskArr, event, info.concurrent ?? 1)
   }
 
   const cancel = () => {
+    file = null
     event.emit('cancel', null)
+    event.emit('changeFinish', { file: null, fileSize: null, resolve: null })
   }
 
   return { show, addListener, start, cancel }
