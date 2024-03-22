@@ -81,6 +81,6 @@ const Upload = (info) => {
         input.remove();
         event.emit('cancel', null);
     };
-    return { show, addListener, start, cancel };
+    return { show, addListener, start, cancel, chunks: chunkSize ? [] : {} };
 };
 export default Upload;

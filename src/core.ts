@@ -104,7 +104,7 @@ const Upload = (info: Info) => {
     })
   }
 
-  const addListener = <T extends EventName>(eventType: T, callback: Event<typeof chunkSize>[T]) => {
+  const addListener = <T extends EventName>(eventType: T, callback: Event[T]) => {
     event.on(eventType, callback)
   }
 
@@ -123,7 +123,7 @@ const Upload = (info: Info) => {
     event.emit('cancel', null)
   }
 
-  return { show, addListener, start, cancel }
+  return { show, addListener, start, cancel, chunks: chunkSize ? [] : {} }
 }
 
 export default Upload
