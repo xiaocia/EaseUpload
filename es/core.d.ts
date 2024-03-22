@@ -1,11 +1,12 @@
 import { Event } from './utils/event';
-declare const Upload: (info: {
+interface Info {
     fileType: string[];
-    chunkSize?: number | boolean;
+    chunkSize?: number;
     concurrent?: number;
-}) => {
+}
+declare const Upload: (info: Info) => {
     show: () => void;
-    addListener: <T extends keyof Event<any>>(eventType: T, callback: Event[T]) => void;
+    addListener: <T extends keyof Event<any>>(eventType: T, callback: Event<number | undefined>[T]) => void;
     start: () => Promise<unknown>;
     cancel: () => void;
 };

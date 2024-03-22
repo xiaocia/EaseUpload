@@ -35,6 +35,7 @@ const limitPromise = (taskArr: task[], event: Emitter, limit = 6) => {
     runningTaskNum++
     const res = await task()
     event.emit('finishOne', res)
+    !cancel && event.emit('finished', res)
 
     // 执行完了，运行数-1，更新进度并捞取下一个
     runningTaskNum--

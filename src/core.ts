@@ -26,21 +26,31 @@ const formatFileSize = (bit: number): string => {
 }
 
 let taskArr: (() => Promise<any>)[] = []
-const Upload = (info: { fileType: string[]; chunkSize?: number | boolean; concurrent?: number }) => {
+interface Info {
+  fileType: string[]
+  chunkSize?: number
+  concurrent?: number
+}
+const Upload = (info: Info) => {
   const event = new emitter()
+  const { fileType, chunkSize, concurrent } = info
 
-  const input = createInput(info.fileType)
+  const input = createInput(fileType)
 
-  let chunks: {
-    file: Blob
-    size: number
-    allSize: number
-    chunksNum: number
-    index: number
-    offset: number
-    id: string
-  }[] = []
-  let file
+  type chunk<K> = K extends number
+    ? {
+        file: Blob
+        size: number
+        allSize: number
+        chunksNum: number
+        index: number
+        offset: number
+        id: string
+      }[]
+    : { file: File; id: string; size: number }
+
+  let chunks: chunk<typeof chunkSize>
+  let file: any
 
   const show = () => input.click()
 
@@ -48,43 +58,39 @@ const Upload = (info: { fileType: string[]; chunkSize?: number | boolean; concur
     file = input.files![0]
 
     new Promise<
-      (
-        chunks: {
-          file: Blob
-          size: number
-          allSize: number
-          chunksNum: number
-          index: number
-          offset: number
-          id: string
-        }[]
+      <T>(
+        chunks: T extends any[]
+          ? {
+              file: Blob
+              size: number
+              allSize: number
+              chunksNum: number
+              index: number
+              offset: number
+              id: string
+            }[]
+          : { file: File; id: string; size: number }
       ) => (() => Promise<any>)[]
     >(resolve => {
       event.emit('change', null)
-      if (typeof info.chunkSize === 'number') {
+      if (typeof chunkSize === 'number') {
         // 配置了切片
-        if (file.size < info.chunkSize * 1024 * 1024) return console.error('文件比切片小')
+        if (file.size < chunkSize * 1024 * 1024) return console.error('文件比切片小')
 
         // 开始切片
         chunks = createChunks(file, info.chunkSize)
-      } else if (info.chunkSize === false || info.chunkSize === undefined) {
-        chunks = [
-          {
-            file: file,
-            size: file.size,
-            allSize: file.size,
-            chunksNum: 1,
-            index: 0,
-            offset: 0,
-            id: ''
-          }
-        ]
+      } else {
+        chunks = { file: file, size: file.size, id: '' }
       }
 
       // 计算hash
       hash(chunks).then(hash => {
         // 根据hash更改每个分片的id
-        chunks = chunks.map((e, i) => ({ ...e, id: `${hash}-${i}` }))
+        if ('length' in chunks) {
+          chunks = chunks.map((e, i) => ({ ...e, id: `${hash}-${i}` }))
+        } else {
+          chunks = { ...chunks, id: hash }
+        }
 
         // hash计算完毕，得到用户处理的taskArr
         event.emit('changeFinish', {
@@ -94,11 +100,11 @@ const Upload = (info: { fileType: string[]; chunkSize?: number | boolean; concur
         })
       })
     }).then(res => {
-      taskArr = res ? res(chunks) : []
+      taskArr = res ? res<typeof chunks>(chunks) : []
     })
   }
 
-  const addListener = <T extends EventName>(eventType: T, callback: Event[T]) => {
+  const addListener = <T extends EventName>(eventType: T, callback: Event<typeof chunkSize>[T]) => {
     event.on(eventType, callback)
   }
 
@@ -106,13 +112,8 @@ const Upload = (info: { fileType: string[]; chunkSize?: number | boolean; concur
     return new Promise(resolve => {
       console.log('开始传输！')
       if (taskArr.length === 0) return
-      LimitPromise(taskArr, event, info.concurrent ?? 1)
+      LimitPromise(taskArr, event, concurrent ?? 1)
       event.on('finished', res => resolve(res))
-      event.on('finishOne', res => {
-        if (!res.success) {
-          resolve(res)
-        }
-      })
     })
   }
 

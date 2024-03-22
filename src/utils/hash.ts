@@ -1,10 +1,10 @@
 import md5 from 'spark-md5'
 
-const hash = (chunks: Chunk[]) => {
+const hash = (chunks: Chunk[] | { file: File; id: string; size: number }) => {
   return new Promise<string>(resolve => {
-    const _chunks: Chunk[] = []
+    const _chunks: (Chunk | { file: Blob; id: string; size: number })[] = []
 
-    if (chunks.length !== 1) {
+    if ('length' in chunks) {
       // 分片
       for (const i in chunks) {
         if (i === 0 + '' || i === chunks.length - 1 + '') {
@@ -18,14 +18,14 @@ const hash = (chunks: Chunk[]) => {
       }
     } else {
       //不分片但是文件小
-      if (chunks[0].allSize < 1024 * 1024 * 10) {
-        _chunks.push(chunks[0])
+      if (chunks.size < 1024 * 1024 * 10) {
+        _chunks.push(chunks)
       } else {
         // 不分片且文件大
-        const file = chunks[0].file
-        _chunks.push({ ...chunks[0], file: file.slice(0, 1024 * 1024 * 2) })
-        _chunks.push({ ...chunks[0], file: file.slice(~~(file.size / 2), ~~(file.size / 2) + 1024 * 1024 * 2) })
-        _chunks.push({ ...chunks[0], file: file.slice(file.size - 1024 * 1024 * 2, file.size) })
+        const file = chunks.file
+        _chunks.push({ ...chunks, file: file.slice(0, 1024 * 1024 * 2) })
+        _chunks.push({ ...chunks, file: file.slice(~~(file.size / 2), ~~(file.size / 2) + 1024 * 1024 * 2) })
+        _chunks.push({ ...chunks, file: file.slice(file.size - 1024 * 1024 * 2, file.size) })
       }
     }
 

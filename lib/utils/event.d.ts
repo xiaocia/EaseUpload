@@ -1,13 +1,13 @@
-export type Event<T = any> = {
+export type Event<K> = {
     change: () => void;
     progress: (progress: number) => void;
     cancel: () => void;
     finished: () => void;
-    finishOne: (res: T) => void;
+    finishOne: (res: any) => void;
     changeFinish: (payload: {
         file: File;
         fileSize: string;
-        resolve: (createTaskList: (chunks: {
+        resolve: (createTaskList: (file: K extends number ? {
             file: Blob;
             size: number;
             allSize: number;
@@ -15,7 +15,11 @@ export type Event<T = any> = {
             index: number;
             offset: number;
             id: string;
-        }[]) => (() => Promise<T>)[]) => void;
+        }[] : {
+            file: File;
+            id: string;
+            size: number;
+        }) => (() => Promise<any>)[]) => void;
     }) => void;
 };
-export type EventName = keyof Event;
+export type EventName = keyof Event<any>;
